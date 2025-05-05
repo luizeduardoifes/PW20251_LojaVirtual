@@ -32,7 +32,7 @@ ENV/
 
 # IDE files
 .idea/
-.vscode/
+#.vscode/
 *.sublime-project
 *.sublime-workspace
 
