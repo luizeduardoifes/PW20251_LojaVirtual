@@ -31,12 +31,15 @@ WHERE id = ?;
 
 # Constante para obter um produto pelo ID
 GET_PRODUTO_BY_ID = """
-SELECT * FROM Produto 
+SELECT id, nome, descricao, preco, estoque, imagem
+FROM Produto 
 WHERE id = ?;
 """
 
 # Constante para obter produtos por página (com paginação)
 GET_PRODUTOS_BY_PAGE = """
-SELECT * FROM Produto 
+SELECT id, nome, descricao, preco, estoque, imagem
+FROM Produto
+ORDER BY nome ASC 
 LIMIT ? OFFSET ?;
 """
