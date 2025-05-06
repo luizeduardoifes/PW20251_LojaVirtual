@@ -32,23 +32,14 @@ WHERE id = ?;
 # Constante para obter um produto pelo ID
 GET_PRODUTO_BY_ID = """
 SELECT id, nome, descricao, preco, estoque, imagem
-<<<<<<< HEAD
 FROM Produto 
-=======
-FROM Produto
->>>>>>> 6471e912a73c15cbd5edfddc4f151b11017d22f4
 WHERE id = ?;
 """
 
 # Constante para obter produtos por página (com paginação)
 GET_PRODUTOS_BY_PAGE = """
 SELECT id, nome, descricao, preco, estoque, imagem
-<<<<<<< HEAD
 FROM Produto
 ORDER BY nome ASC 
-=======
-FROM Produto 
-ORDER BY nome ASC
->>>>>>> 6471e912a73c15cbd5edfddc4f151b11017d22f4
 LIMIT ? OFFSET ?;
 """

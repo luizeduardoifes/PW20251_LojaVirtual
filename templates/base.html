@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <title>Galeria de Produtos</title>
+    <style>
+        .duas-linhas {
+            height: 2.5rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .max-tres-linhas {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-height: 4.5em;
+            line-height: 1.5em;
+        }
+    </style>
+</head>
+
+<body class="d-flex flex-column min-vh-100 text-bg-light">
+    <header class="text-bg-dark p-2">
+        <nav class="navbar navbar-expand-sm navbar-dark">
+            <div class="container">
+                <a class="navbar-brand" href="/">
+                    <i class="bi bi-boxes"></i>
+                    Galeria de Produtos
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainMenu">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="mainMenu">
+                    <div class="navbar-nav">
+                        <a class="nav-link active" href="/">Home</a>
+                        <a class="nav-link" href="/produtos">Produtos</a>
+                        <a class="nav-link" href="/sobre">Sobre</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <main class="container my-3">
+        <h1 class="display-6">Produtos em Destaque</h1>
+        <hr>
+        {% block conteudo %}
+        {% endblock %}
+    </main>
+    <footer class="text-bg-dark p-2 mt-auto">
+        <div class="container text-center">
+            <p class="m-0">Galeria de Produtos &copy; 2025</p>
+            <p class="m-0">Desenvolvido por Ricardo Maroquio</p>
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
