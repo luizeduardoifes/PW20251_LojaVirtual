@@ -36,5 +36,12 @@ def read_clientes(request: Request):
     return response
 
 
+@app.get("/produtos")
+def read_produtos(request: Request):
+    produtos = obter_produtos_por_pagina(12, 0)
+    response = templates.TemplateResponse("produtos.html", {"request": request, "produtos": produtos})
+    return response
+
+
 if __name__ == "__main__":
     uvicorn.run(app=app, port=8000, reload=True)

@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime
 from data.database import obter_conexao
 from sql.cliente_sql import *
 from models.cliente import Cliente
@@ -71,5 +71,5 @@ def obter_clientes_por_pagina(limite: int, offset: int) -> list[Cliente]:
         cpf=resultado[2],
         telefone=resultado[3],
         email=resultado[4],
-        data_nascimento=datetime.datetime.strptime(resultado[5], "%Y-%m-%d").date()
+        data_nascimento=datetime.strptime(resultado[5], "%Y-%m-%d").date()
     ) for resultado in resultados]
