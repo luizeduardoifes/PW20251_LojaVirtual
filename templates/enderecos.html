@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% set titulo_pagina = "Endereço" %}
+{% block conteudo %}
+<table class="table table-striped align-middle">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Logradouro</th>
+            <th>Numero</th>
+            <th>Complemento</th>
+            <th>Bairro</th>
+            <th>Cidade</th>
+            <th>UF</th>
+            <th>CEP</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        {% for endereco in enderecos %}
+        <tr>
+            <td>{{ endereco.id }}</td>
+            <td>{{ endereco.logradouro }}</td>
+            <td>{{ endereco.numero }}</td>
+            <td>{{ endereco.complemento }}</td>
+            <td>{{ endereco.bairro }}</td>
+            <td>{{ endereco.cidade }}</td>
+            <td>{{ endereco.uf }}</td>
+            <td>{{ endereco.cep }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
