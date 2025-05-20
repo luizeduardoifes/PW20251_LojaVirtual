@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% set titulo_pagina = "Categorias" %}
+{% block conteudo %}
+<table class="table table-striped align-middle">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Nome</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for categoria in categorias %}
+        <tr>
+            <td>{{ categoria.id }}</td>
+            <td>{{ categoria.nome }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
