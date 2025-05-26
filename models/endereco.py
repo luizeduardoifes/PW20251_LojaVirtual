@@ -9,5 +9,5 @@ class Endereco:
     complemento: str
     bairro: str
     cidade: str
-    estado: str
+    uf: str
     cep: str

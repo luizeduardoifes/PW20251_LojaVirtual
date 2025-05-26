@@ -15,7 +15,7 @@ def inserir_endereco(endereco: Endereco) -> Endereco:
     conexao = obter_conexao()
     cursor = conexao.cursor()
     cursor.execute(INSERT_ENDERECO, 
-        (endereco.logradouro, endereco.numero, endereco.complemento, endereco.bairro, endereco.cidade, endereco.estado, endereco.cep))
+        (endereco.logradouro, endereco.numero, endereco.complemento, endereco.bairro, endereco.cidade, endereco.uf, endereco.cep))
     endereco.id = cursor.lastrowid
     conexao.commit()
     conexao.close()
@@ -26,7 +26,7 @@ def atualizar_endereco(endereco: Endereco) -> bool:
     conexao = obter_conexao()
     cursor = conexao.cursor()
     cursor.execute(UPDATE_ENDERECO, 
-        (endereco.logradouro, endereco.numero, endereco.complemento, endereco.bairro, endereco.cidade, endereco.estado, endereco.cep, endereco.id))
+        (endereco.logradouro, endereco.numero, endereco.complemento, endereco.bairro, endereco.cidade, endereco.uf, endereco.cep, endereco.id))
     conexao.commit()
     conexao.close()
     return (cursor.rowcount > 0)
