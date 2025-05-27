@@ -21,7 +21,6 @@ app = FastAPI()
 templates = Jinja2Templates(directory="templates")
 
 app.add_middleware(SessionMiddleware, secret_key=SECRET_KEY)
-criptografia = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 def format_currency_br(value, currency='BRL', locale='pt_BR'):
     return format_currency(value, currency, locale=locale)

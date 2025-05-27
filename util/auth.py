@@ -1,3 +1,4 @@
+from typing import Optional
 from fastapi import HTTPException, Request
 from passlib.context import CryptContext
 
@@ -25,17 +26,17 @@ db_usuarios = {
 def verificar_senha(senha_normal: str, senha_hashed: str) -> bool:
     return criptografia.verify(senha_normal, senha_hashed)
 
-def autenticar_usuario(usuario: str, senha: str):
-    usuario = db_usuarios.get(usuario)
+def autenticar_usuario(email: str, senha: str):
+    usuario = db_usuarios.get(email)
     if not usuario or not verificar_senha(senha, usuario["senha_hashed"]):
         return None
     return usuario
 
-def obter_usuario_logado(request: Request):
+def obter_usuario_logado(request: Request) -> Optional[Usuario]:
     usuario = request.session.get("usuario")
     if not usuario:
         raise HTTPException(status_code=401, detail="Não autenticado")
-    usuario = db_usuarios.get(usuario)
+    usuario = db_usuarios.get(usuario.email)
     if not usuario:
         raise HTTPException(status_code=401, detail="Usuário não encontrado")
-    return Usuario(nome=usuario["nome"], email=usuario["email"], senha_hash=usuario["senha_hashed"])
+    return Usuario(id=usuario["id"], nome=usuario["nome"], email=usuario["email"])
