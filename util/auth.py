@@ -1,29 +1,41 @@
-from fastapi import Request, HTTPException
+from fastapi import HTTPException, Request
 from passlib.context import CryptContext
 
-SECRET_KEY = "9471ca5ca862aea6c3c7f9518239c613ce5cfe60bcd7782e0baaad0e9086c4e6"
+from models.usuario import Usuario
 
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+SECRET_KEY="cae3def7c5c8f5c07613a742c1c5435076ccf0777c259796ad1653c0fd5dfdd7"
 
-def verify_password(plain_password: str, hashed_password: str) -> bool:
-    return pwd_context.verify(plain_password, hashed_password)
-    
+criptografia = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-def authenticate_user(username: str, password: str):
-    # user = fake_users_db.get(username)
-    # if not user or not verify_password(password, user["hashed_password"]):
-    #     return None
-    # return user
-    pass
+db_usuarios = {
+    "admin@email.com": {
+        "nome": "Admnistrador do Sistema",
+        "email": "admin@email.com",
+        "senha_hashed": criptografia.hash("admin123"),
+        "perfis": ["admin", "user"]
+    },
+    "usuario@email.com": {
+        "nome": "Usuário do Sistema",
+        "email": "usuario@email.com",
+        "senha_hashed": criptografia.hash("user123"),
+        "perfis": ["user"]
+    }
+}
 
-def get_current_user(request: Request):
-    """Dependency para verificar se o usuário está logado"""
-    username = request.session.get("user")
-    if not username:
-        raise HTTPException(status_code=401, detail="Not authenticated")
-    
-    # user = fake_users_db.get(username)
-    # if not user:
-    #     raise HTTPException(status_code=401, detail="User not found")
-    
-    # return User(username=user["username"], email=user["email"])
+def verificar_senha(senha_normal: str, senha_hashed: str) -> bool:
+    return criptografia.verify(senha_normal, senha_hashed)
+
+def autenticar_usuario(usuario: str, senha: str):
+    usuario = db_usuarios.get(usuario)
+    if not usuario or not verificar_senha(senha, usuario["senha_hashed"]):
+        return None
+    return usuario
+
+def obter_usuario_logado(request: Request):
+    usuario = request.session.get("usuario")
+    if not usuario:
+        raise HTTPException(status_code=401, detail="Não autenticado")
+    usuario = db_usuarios.get(usuario)
+    if not usuario:
+        raise HTTPException(status_code=401, detail="Usuário não encontrado")
+    return Usuario(nome=usuario["nome"], email=usuario["email"], senha_hash=usuario["senha_hashed"])
