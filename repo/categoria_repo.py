@@ -2,65 +2,54 @@ from data.database import obter_conexao
 from sql.categoria_sql import *
 from models.categoria import Categoria
 
-def criar_tabela_categorias():
-    """Cria a tabela Categoria se ela não existir."""
-    conexao = obter_conexao()
-    cursor = conexao.cursor()
-    cursor.execute(CREATE_TABLE_CATEGORIA)
-    conexao.commit()
-    conexao.close()
+def criar_tabela_categorias() -> bool:
+    with obter_conexao() as conexao:
+        cursor = conexao.cursor()
+        cursor.execute(CREATE_TABLE_CATEGORIA)
+        return (cursor.rowcount > 0)
+
+
 
 def inserir_categoria(categoria: Categoria) -> Categoria:
-    """Insere um nova categoria no banco de dados."""
-    conexao = obter_conexao()
-    cursor = conexao.cursor()
-    cursor.execute(INSERT_CATEGORIA, 
-        (categoria.nome))
-    categoria.id = cursor.lastrowid
-    conexao.commit()
-    conexao.close()
-    return categoria
+    with obter_conexao() as conexao:
+        cursor = conexao.cursor()
+        cursor.execute(INSERT_CATEGORIA, 
+            (categoria.nome))
+        categoria.id = cursor.lastrowid
+        return categoria
 
 def atualizar_categoria(categoria: Categoria) -> bool:
-    """Atualiza um categoria existente no banco de dados."""
-    conexao = obter_conexao()
-    cursor = conexao.cursor()
-    cursor.execute(UPDATE_CATEGORIA, 
-        (categoria.nome, categoria.id))
-    conexao.commit()
-    conexao.close()
-    return (cursor.rowcount > 0)
+    with obter_conexao() as conexao:
+        cursor = conexao.cursor()
+        cursor.execute(UPDATE_CATEGORIA, 
+            (categoria.nome, categoria.id))
+        return (cursor.rowcount > 0)
 
 def excluir_categoria(id: int) -> bool:
-    """Exclui um categoria do banco de dados pelo ID."""
-    conexao = obter_conexao()
-    cursor = conexao.cursor()
-    cursor.execute(DELETE_CATEGORIA, (id,))
-    conexao.commit()
-    conexao.close()
-    return (cursor.rowcount > 0)
+    with obter_conexao() as conexao:
+        cursor = conexao.cursor()
+        cursor.execute(DELETE_CATEGORIA, (id,))
+        return (cursor.rowcount > 0)
 
 def obter_categoria_por_id(id: int) -> Categoria:
-    """Obtém um categoria pelo ID."""
-    conexao = obter_conexao()
-    cursor = conexao.cursor()
-    cursor.execute(GET_CATEGORIA_BY_ID, (id,))
-    resultado = cursor.fetchone()
-    conexao.close()
-    if resultado:
-        return Categoria(
-            id=resultado[0],
-            nome=resultado[1])
-    return None
+    with obter_conexao() as conexao:
+        cursor = conexao.cursor()
+        cursor.execute(GET_CATEGORIA_BY_ID, (id,))
+        resultado = cursor.fetchone()
+        if resultado:
+            return Categoria(
+                id=resultado["id"],
+                nome=resultado["nome"])
+        return None
 
-def obter_categorias_por_pagina(limite: int, offset: int) -> list[Categoria]:
-    """Obtém uma lista de categorias com paginação."""
-    conexao = obter_conexao()
-    cursor = conexao.cursor()
-    cursor.execute(GET_CATEGORIAS_BY_PAGE, (limite, offset))
-    resultados = cursor.fetchall()
-    conexao.close()
-    return [Categoria(
-        id=resultado[0],
-        nome=resultado[1]) 
-        for resultado in resultados]
+def obter_categorias_por_pagina(numero_pagina: int, tamanho_pagina: int) -> list[Categoria]:
+    with obter_conexao() as conexao:
+        limite = tamanho_pagina
+        offset = (numero_pagina - 1) * tamanho_pagina
+        cursor = conexao.cursor()
+        cursor.execute(GET_CATEGORIAS_BY_PAGE, (limite, offset))
+        resultados = cursor.fetchall()
+        return [Categoria(
+            id=resultado["id"],
+            nome=resultado["nome"]) 
+            for resultado in resultados]
