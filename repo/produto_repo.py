@@ -6,6 +6,7 @@ def criar_tabela_produtos() -> bool:
      with obter_conexao() as conexao:
         cursor = conexao.cursor()
         cursor.execute(CREATE_TABLE_PRODUTO)
+        return (cursor.rowcount > 0)
 
 
 def inserir_produto(produto: Produto) -> Produto:
