@@ -49,10 +49,10 @@ def obter_endereco_por_id(id: int) -> Endereco:
             )
         return None
 
-def obter_enderecos_por_pagina(limite: int, offset: int) -> list[Endereco]:
+def obter_enderecos_por_pagina(numero_pagina: int, tamanho_pagina: int) -> list[Endereco]:
     with obter_conexao() as conexao:
         cursor = conexao.cursor()
-        cursor.execute(GET_ENDERECOS_BY_PAGE, (limite, offset))
+        cursor.execute(GET_ENDERECOS_BY_PAGE, (numero_pagina, tamanho_pagina))
         resultados = cursor.fetchall()
 
         return [Endereco(
