@@ -1,12 +1,11 @@
--- Comando INSERT para inserir 10 clientes na tabela clientes contendo nome, cpf, email, telefone e data_nascimento
-INSERT INTO clientes (nome, cpf, email, telefone, data_nascimento) VALUES
-('João Silva', '123.456.789-00', 'joaosilva@email.com', '11987654321', '1990-01-01'),
-('Maria Oliveira', '987.654.321-00', 'mariaoliveria@email.com', '11987654322', '1985-05-15'),
-('Carlos Santos', '456.789.123-00', 'calossantos@email.com', '11987654323', '1992-03-20'),
-('Ana Costa', '321.654.987-00', 'anacosta@email.com', '11987654324', '1988-07-30'),
-('Lucas Pereira', '654.321.987-00', 'lucaspereira@email.com', '11987654325', '1995-11-11'),
-('Fernanda Lima', '789.123.456-00', 'fernandalima@email.com', '11987654326', '1993-09-09'),
-('Roberto Almeida', '159.753.486-00', 'robertoalmeida@email.com', '11987654327', '1987-12-12'),
-('Juliana Martins', '753.159.486-00', 'julianamartins@email.com', '11987654328', '1991-04-04'),
-('Ricardo Ferreira', '951.753.486-00', 'ricardoferreira@email.com', '11987654329', '1989-08-08'),
-('Patrícia Rocha', '357.159.486-00', 'patriciarocha@email.com', '11987654330', '1994-06-06');
+INSERT INTO cliente (nome, cpf, telefone, email, data_nascimento) VALUES
+('João Silva', '12345678901', '289999752713', 'joaosilva@email.com', '1990-01-01'),
+('Maria Oliveira', '23456789012', '289999752714', 'mariaoliveira@email.com', '1985-05-12'),
+('Carlos Souza', '34567890123', '289999752715', 'carlossouza@email.com', '1992-03-22'),
+('Ana Paula', '45678901234', '289999752716', 'anapaula@email.com', '1988-07-15'),
+('Pedro Santos', '56789012345', '289999752717', 'pedrosantos@email.com', '1995-11-30'),
+('Fernanda Lima', '67890123456', '289999752718', 'fernandalima@email.com', '1993-09-18'),
+('Lucas Rocha', '78901234567', '289999752719', 'lucasrocha@email.com', '1991-12-05'),
+('Juliana Alves', '89012345678', '289999752720', 'julianaalves@email.com', '1987-04-27'),
+('Ricardo Pereira', '90123456789', '289999752721', 'ricardopereira@email.com', '1994-06-10'),
+('Patricia Gomes', '01234567890', '289999752722', 'patriciagomes@email.com', '1996-08-23');

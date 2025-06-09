@@ -17,7 +17,7 @@ def inserir_cliente(cliente: Cliente) -> Cliente:
         cursor.execute(INSERT_CLIENTE, 
             (cliente.nome, cliente.cpf, cliente.telefone, cliente.email, cliente.data_nascimento))
         cliente.id = cursor.lastrowid
-
+        conexao.commit()
         return cliente
 
 def atualizar_cliente(cliente: Cliente) -> bool:
