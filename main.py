@@ -28,7 +28,7 @@ templates.env.filters['format_currency_br'] = format_currency_br
 
 @app.get("/")
 def read_root(request: Request):
-    produtos = obter_produtos_por_pagina(12, 0)
+    produtos = obter_produtos_por_pagina(1, 12)
     response = templates.TemplateResponse("index.html", {"request": request, "produtos": produtos})
     return response
 
@@ -40,25 +40,25 @@ def read_produto(request: Request, id: int):
 
 @app.get("/clientes")
 def read_clientes(request: Request):
-    clientes = obter_clientes_por_pagina(12, 0)
+    clientes = obter_clientes_por_pagina(1,12)
     response = templates.TemplateResponse("clientes.html", {"request": request, "clientes": clientes})
     return response
 
 @app.get("/produtos")
 def read_produtos(request: Request):
-    produtos = obter_produtos_por_pagina(12, 0)
+    produtos = obter_produtos_por_pagina(1, 12)
     response = templates.TemplateResponse("produtos.html", {"request": request, "produtos": produtos})
     return response
 
 @app.get("/categorias")
 def read_categorias(request: Request):
-    categorias = obter_categorias_por_pagina(12, 0)
+    categorias = obter_categorias_por_pagina(1, 12)
     response = templates.TemplateResponse("categorias.html", {"request": request, "categorias": categorias})
     return response
 
 @app.get("/enderecos")
 def read_enderecos(request: Request):
-    enderecos = obter_enderecos_por_pagina(12, 0)
+    enderecos = obter_enderecos_por_pagina(1, 12)
     response = templates.TemplateResponse("enderecos.html", {"request": request, "enderecos": enderecos})
     return response
 

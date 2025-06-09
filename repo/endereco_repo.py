@@ -51,8 +51,10 @@ def obter_endereco_por_id(id: int) -> Endereco:
 
 def obter_enderecos_por_pagina(numero_pagina: int, tamanho_pagina: int) -> list[Endereco]:
     with obter_conexao() as conexao:
+        limite = tamanho_pagina
+        offset = (numero_pagina - 1) * tamanho_pagina
         cursor = conexao.cursor()
-        cursor.execute(GET_ENDERECOS_BY_PAGE, (numero_pagina, tamanho_pagina))
+        cursor.execute(GET_ENDERECOS_BY_PAGE, (limite, offset))
         resultados = cursor.fetchall()
 
         return [Endereco(

@@ -48,11 +48,13 @@ def obter_produto_por_id(id: int) -> Produto:
             )
         return None
 
-def obter_produtos_por_pagina(limite: int, offset: int) -> list[Produto]:
+def obter_produtos_por_pagina(numero_pagina: int, tamanho_pagina: int) -> list[Produto]:
     """Obtém uma lista de produtos com paginação."""
-    conexao = obter_conexao()
-    cursor = conexao.cursor()
-    cursor.execute(GET_PRODUTOS_BY_PAGE, (limite, offset))
+    with obter_conexao() as conexao:
+        limite = tamanho_pagina
+        offset = (numero_pagina - 1) * tamanho_pagina
+        cursor = conexao.cursor()
+        cursor.execute(GET_PRODUTOS_BY_PAGE, (limite, offset))
     resultados = cursor.fetchall()
     return [Produto(
         id=resultado["id"],

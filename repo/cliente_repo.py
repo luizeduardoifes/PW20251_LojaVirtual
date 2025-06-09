@@ -52,12 +52,12 @@ def obter_cliente_por_id(id: int) -> Cliente:
                 data_nascimento=datetime.strptime(resultado["data_nascimento"], "%Y-%m-%d").date())
         return None
 
-def obter_clientes_por_pagina(limite: int, offset: int) -> list[Cliente]:
+def obter_clientes_por_pagina(numero_pagina: int, tamanho_pagina: int) -> list[Cliente]:
     with obter_conexao() as conexao:
+        limite = tamanho_pagina
+        offset = (numero_pagina - 1) * tamanho_pagina
         cursor = conexao.cursor()
         cursor.execute(GET_CLIENTES_BY_PAGE, (limite, offset))
-        resultados = cursor.fetchall()
-        conexao.close()
         return [Cliente(
             id=resultado["id"],
             nome=resultado["nome"],
@@ -66,4 +66,4 @@ def obter_clientes_por_pagina(limite: int, offset: int) -> list[Cliente]:
             email=resultado["email"],
 
             data_nascimento=datetime.strptime(resultado["data_nascimento"], "%Y-%m-%d").date()
-        ) for resultado in resultados]
+        ) for resultado in cursor.fetchall()]
