@@ -4,7 +4,6 @@ from fastapi import FastAPI, Form, HTTPException, Request
 from fastapi.templating import Jinja2Templates
 from babel.numbers import format_currency
 from starlette.middleware.sessions import SessionMiddleware
-from passlib.context import CryptContext
 
 from repo.categoria_repo import criar_tabela_categorias, obter_categorias_por_pagina
 from repo.cliente_repo import criar_tabela_clientes, obter_clientes_por_pagina
@@ -74,11 +73,16 @@ async def login(
     usuario = autenticar_usuario(email, senha)
     if not usuario:
         raise HTTPException(status_code=401, detail="Credenciais inválidas")
-    usuario["senha_hashed"] = None  # Remove senha do dicionário
-    request.session["usuario"] = usuario
+    usuario_json = {
+        "id": usuario.id,
+        "nome": usuario.nome,
+        "email": usuario.email,
+        
+    }  
+    request.session["usuario"] = usuario_json
     return RedirectResponse(url="/", status_code=303)
 
-@app.post("/logout")
+@app.get("/logout")
 async def logout(request: Request):
     request.session.clear()
     return RedirectResponse(url="/", status_code=303)

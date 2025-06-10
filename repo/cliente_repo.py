@@ -1,5 +1,8 @@
 from datetime import datetime
+
+from typing import Optional
 from data.database import obter_conexao
+
 from sql.cliente_sql import *
 from models.cliente import Cliente
 
@@ -50,6 +53,24 @@ def obter_cliente_por_id(id: int) -> Cliente:
 
                     
                 data_nascimento=datetime.strptime(resultado["data_nascimento"], "%Y-%m-%d").date())
+        return None
+
+def obter_cliente_por_email(email: str) -> Optional[Cliente]:
+    with obter_conexao() as conexao:
+        cursor = conexao.cursor()
+        cursor.execute(GET_CLIENTE_BY_EMAIL, (email,))
+        resultado = cursor.fetchone()
+  
+        if resultado:
+            return Cliente(
+                id=resultado["id"],
+                nome=resultado["nome"],
+                cpf=resultado["cpf"],
+                telefone=resultado["telefone"],
+                email=resultado["email"],
+                data_nascimento=datetime.strptime(resultado["data_nascimento"], "%Y-%m-%d").date(),
+                senha_hash=resultado["senha_hash"]
+            )
         return None
 
 def obter_clientes_por_pagina(numero_pagina: int, tamanho_pagina: int) -> list[Cliente]:

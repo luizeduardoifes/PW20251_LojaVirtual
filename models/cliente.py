@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 import datetime
+from typing import Optional
 
 
 @dataclass
@@ -10,5 +11,5 @@ class Cliente:
     telefone: str
     email: str    
     data_nascimento: datetime
-
+    senha_hash: Optional[str]
     

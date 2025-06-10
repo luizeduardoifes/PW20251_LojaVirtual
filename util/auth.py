@@ -1,34 +1,23 @@
 from typing import Optional
 from fastapi import HTTPException, Request
-from passlib.context import CryptContext
+import hashlib
 
 from models.usuario import Usuario
+from repo import cliente_repo
+
+
 
 SECRET_KEY="cae3def7c5c8f5c07613a742c1c5435076ccf0777c259796ad1653c0fd5dfdd7"
 
-criptografia = CryptContext(schemes=["bcrypt"], deprecated="auto")
-
-db_usuarios = {
-    "admin@email.com": {
-        "nome": "Admnistrador do Sistema",
-        "email": "admin@email.com",
-        "senha_hashed": criptografia.hash("admin123"),
-        "perfis": ["admin", "user"]
-    },
-    "usuario@email.com": {
-        "nome": "Usuário do Sistema",
-        "email": "usuario@email.com",
-        "senha_hashed": criptografia.hash("user123"),
-        "perfis": ["user"]
-    }
-}
+def hash_senha(senha: str) -> str:
+    return hashlib.sha256(senha.encode()).hexdigest()
 
 def verificar_senha(senha_normal: str, senha_hashed: str) -> bool:
-    return criptografia.verify(senha_normal, senha_hashed)
+    return hash_senha(senha_normal) == senha_hashed
 
 def autenticar_usuario(email: str, senha: str):
-    usuario = db_usuarios.get(email)
-    if not usuario or not verificar_senha(senha, usuario["senha_hashed"]):
+    usuario = cliente_repo.obter_cliente_por_email(email)
+    if not usuario or not verificar_senha(senha, usuario.senha_hash):
         return None
     return usuario
 
@@ -36,7 +25,7 @@ def obter_usuario_logado(request: Request) -> Optional[Usuario]:
     usuario = request.session.get("usuario")
     if not usuario:
         raise HTTPException(status_code=401, detail="Não autenticado")
-    # usuario = db_usuarios.get(usuario.email)
-    # if not usuario:
-    #    raise HTTPException(status_code=401, detail="Usuário não encontrado")
+    
     return usuario
+
+print("senha do usuario:", hash_senha("123456"))
